@@ -5,26 +5,27 @@
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    var idx;
-    var stateListElem = document.getElementById('state');
-    var stateOption;
-    var stateObject;
+    var signupForm = document.getElementById('signup');
+    var stateSelect = signupForm['state'];
+    var occupationSelect = signupForm['occupation'];
+
     var occupationOther = document.getElementById('occupationOther');
     var cancelButton = document.getElementById('cancelButton');
+    var idx;
+    var option;
 
     for (idx = 0; idx < usStates.length; ++idx) {
-        stateObject = usStates[idx];
-        stateOption = document.createElement('option');
-        stateOption.innerHTML = stateObject["name"];
-        stateOption.value = stateObject["code"];
-        stateListElem.appendChild(stateOption);
+        option = document.createElement('option');
+        option.innerHTML = usStates[idx].name;
+        option.value = usStates[idx].code;
+        stateSelect.appendChild(option);
     }
 
-    var occupationSelect = document.getElementById('occupation');
     occupationSelect.addEventListener('change', function() {
         if (occupationSelect.value == 'other') {
             occupationOther.style.display = "inline";
-        } else {
+        }
+        else {
             occupationOther.style.display = "none";
         }
     });
