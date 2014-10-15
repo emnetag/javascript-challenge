@@ -7,3 +7,8 @@ body {
 .error-message {
     color: #F00;
 }
+
+#occupationOther {
+    display: none;
+}
+
