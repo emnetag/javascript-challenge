@@ -8,7 +8,6 @@ var occupationSelect = signupForm.elements['occupation'];
 var requiredFields = ['firstName', 'lastName', 'address1', 'city', 'state', 'zip', 'birthdate'];
 
 
-
 document.addEventListener('DOMContentLoaded', function() {
     var stateSelect = signupForm.elements['state'];
 
@@ -79,11 +78,10 @@ function validateRequiredField(field) {
        if (currentDate.getFullYear() - dateValue.getFullYear() > 13) {
            valid = true;
        } else if (currentDate.getFullYear() - dateValue.getFullYear() == 13) {
-           valid = (currentDate.getMonth() >= dateValue.getMonth()) && (currentDate.getDate() >= dateValue.getDate());
+           valid = (currentDate.getMonth() >= dateValue.getUTCMonth()) && (currentDate.getDate() >= dateValue.getUTCDate());
        } else {
            valid = false;
-       }
-
+    }
     } else {
         valid = value.length > 0;
     }
