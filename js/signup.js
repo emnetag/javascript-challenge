@@ -67,7 +67,7 @@ function onReady() {
             valid = zipRegExp.test(value);
         } else if (field.name == 'birthday') {
             var dateValue = new Date(value);
-            valid = validateBirthDate(dateValue);
+            valid = moment().diff(dateValue, 'years') >= 13;
         } else {
             valid = value.length > 0;
         }
@@ -82,17 +82,6 @@ function onReady() {
         else {
             field.className = 'form-control';
         }
-    }
-
-    function validateBirthDate(dateValue) {
-        if (currentDate.getFullYear() - dateValue.getFullYear() > 13) {
-            valid = true;
-        } else if (currentDate.getFullYear() - dateValue.getFullYear() == 13) {
-            valid = (currentDate.getMonth() >= dateValue.getUTCMonth()) && (currentDate.getDate() >= dateValue.getUTCDate());
-        } else {
-            valid = false;
-        }
-        return valid;
     }
 }
 
