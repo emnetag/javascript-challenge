@@ -39,7 +39,12 @@ function onReady() {
     signupForm.addEventListener('submit', onSubmit);
 
     function onSubmit() {
-        evt.returnValue = validateForm(this);
+        try {
+            evt.returnValue = validateForm(this);
+        }
+        catch(error) {
+            console.log(error);
+        }
         if (!evt.returnValue && evt.preventDefault) {
             evt.preventDefault();
         }
@@ -56,6 +61,7 @@ function onReady() {
         for (idx = 0; idx < requiredFields.length; ++idx) {
             formValid &= validateRequiredField(form.elements[requiredFields[idx]]);
         }
+        return formValid;
     }
 
     function validateRequiredField(field) {
@@ -82,6 +88,7 @@ function onReady() {
         else {
             field.className = 'form-control';
         }
+        return valid;
     }
 }
 
