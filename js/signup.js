@@ -72,6 +72,9 @@ function onReady() {
         if (field.name == 'zip') {
             var zipRegExp = new RegExp('^\\d{5}$');
             valid = zipRegExp.test(value);
+            if (value.length > 0 && !valid) {
+                window.alert('Zip code must be 5 digits');
+            }
         } else if (field.name == 'birthdate') {
             valid = testDate(value);
         } else {
@@ -82,17 +85,20 @@ function onReady() {
     }
 
     function testDate(dob) {
-        var birthdateMessage = document.getElementById('birthdateMessage');
-        var valid = moment().diff(dob, 'years') >- 13;
+        if (dob.length > 0) {
+            var birthdateMessage = document.getElementById('birthdateMessage');
+            var valid = moment().diff(dob, 'years') >= 13;
 
-        if (!valid) {
-            birthdateMessage.innerHTML = 'You must be 13 years old to sign up';
-            birthdateMessage.style.display = 'block';
+            if (!valid) {
+                birthdateMessage.innerHTML = 'You must be 13 years old to sign up';
+                birthdateMessage.style.display = 'block';
+            }
+            else {
+                birthdateMessage.style.display = 'none';
+            }
+            return valid;
         }
-        else {
-            birthdateMessage.style.display = 'none';
-        }
-        return valid;
+        return false;
     }
 }
 
