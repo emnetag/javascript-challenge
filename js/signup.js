@@ -27,7 +27,6 @@ function onReady() {
         else {
             occupationOther.style.display = "none";
         }
-
     });
 
     cancelButton.addEventListener('click', function () {
@@ -38,16 +37,17 @@ function onReady() {
 
     signupForm.addEventListener('submit', onSubmit);
 
-    function onSubmit() {
+    function onSubmit(eventObject) {
         try {
-            evt.returnValue = validateForm(this);
+            eventObject.returnValue = validateForm(this);
         }
         catch(error) {
-            console.log(error);
+            console.error(error);
         }
-        if (!evt.returnValue && evt.preventDefault) {
-            evt.preventDefault();
+        if (!eventObject.returnValue && eventObject.preventDefault) {
+            eventObject.preventDefault();
         }
+        return eventObject.returnValue;
     }
 
     function validateForm(form) {
@@ -59,7 +59,8 @@ function onReady() {
         }
 
         for (idx = 0; idx < requiredFields.length; ++idx) {
-            formValid &= validateRequiredField(form.elements[requiredFields[idx]]);
+            var requiredField = form.elements[requiredFields[idx]];
+            formValid &= validateRequiredField(requiredField);
         }
         return formValid;
     }
@@ -71,22 +72,25 @@ function onReady() {
         if (field.name == 'zip') {
             var zipRegExp = new RegExp('^\\d{5}$');
             valid = zipRegExp.test(value);
-        } else if (field.name == 'birthday') {
-            var dateValue = new Date(value);
-            valid = moment().diff(dateValue, 'years') >= 13;
+        } else if (field.name == 'birthdate') {
+            valid = testDate(value);
         } else {
             valid = value.length > 0;
         }
+        field.className = valid ? 'form-control' : 'form-control invalid-field';
+        return valid;
+    }
+
+    function testDate(dob) {
+        var birthdateMessage = document.getElementById('birthdateMessage');
+        var valid = moment().diff(dob, 'years') >- 13;
 
         if (!valid) {
-            if (field.name == 'birthdate') {
-                var birthdateMessage = document.getElementById('birthdateMessage');
-                birthdateMessage.innerHTML = 'You must be 13 years or older to sign up';
-            }
-            field.className = 'form-control invalid';
+            birthdateMessage.innerHTML = 'You must be 13 years old to sign up';
+            birthdateMessage.style.display = 'block';
         }
         else {
-            field.className = 'form-control';
+            birthdateMessage.style.display = 'none';
         }
         return valid;
     }
