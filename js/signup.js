@@ -42,7 +42,7 @@ function onReady() {
             eventObject.returnValue = validateForm(this);
         }
         catch(error) {
-            console.error(error);
+            console.log(error);
         }
         if (!eventObject.returnValue && eventObject.preventDefault) {
             eventObject.preventDefault();
@@ -75,9 +75,11 @@ function onReady() {
             if (value.length > 0 && !valid) {
                 window.alert('Zip code must be 5 digits');
             }
-        } else if (field.name == 'birthdate') {
+        }
+        else if (field.name == 'birthdate') {
             valid = testDate(value);
-        } else {
+        }
+        else {
             valid = value.length > 0;
         }
         field.className = valid ? 'form-control' : 'form-control invalid-field';
@@ -85,19 +87,20 @@ function onReady() {
     }
 
     function testDate(dob) {
+        var birthdateMessage = document.getElementById('birthdateMessage');
         if (dob.length > 0) {
-            var birthdateMessage = document.getElementById('birthdateMessage');
             var valid = moment().diff(dob, 'years') >= 13;
 
             if (!valid) {
                 birthdateMessage.innerHTML = 'You must be 13 years old to sign up';
-                birthdateMessage.style.display = 'block';
+                birthdateMessage.style.display = 'inline';
             }
             else {
                 birthdateMessage.style.display = 'none';
             }
             return valid;
         }
+        birthdateMessage.style.display = 'none';
         return false;
     }
 }
